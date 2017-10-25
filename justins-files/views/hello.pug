@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    .wrapper
+        - const upCat = cat.toUpperCase();
+        p Hello, my cats name is #{upCat}
+        a(href="#" alt=`${cat}`): span#yo Yo
+
+    h2 hello
