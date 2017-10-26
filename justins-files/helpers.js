@@ -27,3 +27,8 @@ exports.menu = [
   { slug: '/add', title: 'Add', icon: 'add', },
   { slug: '/map', title: 'Map', icon: 'map', },
 ];
+
+exports.ellipsisText = function(text, maxLength = 50) {
+  if (text.length <= maxLength) return text;
+  return text.split('').slice(0, maxLength - 3).join('') + '...';
+};
