@@ -41,6 +41,17 @@ router.post('/register',
 router.get('/logout', authController.logout);
 
 router.get('/account', userController.account);
+
+// cookie test - ignore
+router.get('/cookie', (req, res) => {
+    res.cookie('testingcookie', 'This is just a test', {
+        maxAge: 1000*60*60 // one hour
+    });
+    var hour = 3600000
+    req.session.cookie.expires = new Date(Date.now() + hour);
+    req.session.cookie.maxAge = hour;
+    res.redirect('/');
+});
 // bodyparser test
 // router.post('/', (req, res) => {
 //   // res.send('Hey! It works!');

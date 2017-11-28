@@ -1,12 +1,37 @@
 const passport = require('passport');
 
 
-exports.login = passport.authenticate('local', {
-    failureRedirect: '/login',
-    failureFlash: 'Failed Login!',
-    successRedirect: '/',
-    successFlash: 'You are now logged in!'
-});
+// exports.login = passport.authenticate('local', {
+//     failureRedirect: '/login',
+//     failureFlash: 'Failed Login!',
+//     successRedirect: '/',
+//     successFlash: 'You are now logged in!'
+// });
+
+exports.login = function (req, res, next) {
+    passport.authenticate('local', function (err, user, info) {
+        if (err) { return next(err); }
+        if (!user) {
+            req.flash('error', 'Failed Login!');
+            return res.redirect('/login');
+        }
+        req.logIn(user, function (err) {
+            if (err) { return next(err); }
+            // Remember Me!
+            if(req.body.remember) {
+                var sevenDays = 604800000;
+                req.session.cookie.expires = new Date(Date.now() + sevenDays);
+                req.session.cookie.maxAge = sevenDays;
+                req.flash('success', 'You are now logged in! ;)');
+            } else {
+                req.flash('success', 'You are now logged in!');
+            }
+
+            return res.redirect('/');
+        });
+    })(req, res, next);
+};
+
 
 exports.logout = (req, res) => {
     req.logout();

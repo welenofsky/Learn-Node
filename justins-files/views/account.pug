@@ -1,4 +1,7 @@
 extends layout
 
 block content
-    p it works!
+    h2 Edit Your Account
+    form(action="/account" method="POST")
+    label(for="name") Name
+    input(type="text" name="name" value=user.name)
