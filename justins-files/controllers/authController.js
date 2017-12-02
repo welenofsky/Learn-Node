@@ -19,14 +19,12 @@ exports.login = function (req, res, next) {
             if (err) { return next(err); }
             // Remember Me!
             if(req.body.remember) {
-                var sevenDays = 604800000;
+                const sevenDays = 604800000;
                 req.session.cookie.expires = new Date(Date.now() + sevenDays);
-                req.session.cookie.maxAge = sevenDays;
-                req.flash('success', 'You are now logged in! ;)');
-            } else {
-                req.flash('success', 'You are now logged in!');
+                req.session.cookie.maxAge = sevenDays;                
             }
 
+            req.flash('success', 'You are now logged in!');
             return res.redirect('/');
         });
     })(req, res, next);
